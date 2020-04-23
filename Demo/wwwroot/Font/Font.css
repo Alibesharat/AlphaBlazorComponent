@@ -1,0 +1,11 @@
+﻿
+@font-face {
+    font-family: 'shabnam';
+    src: url('shabnam.eot') format('embedded-opentype');
+    src: url('shabnam.ttf') format('truetype');
+    src: url('shabnam.woff') format('woff');
+    src: url('shabnam.woff2') format('woff2');
+}
+h1, h2, h3, h4, h5, h6, p, span, strong, input,table,tr,td,th,tbody,a,li,div {
+    font-family: 'shabnam'
+}
