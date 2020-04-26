@@ -1,0 +1,42 @@
+﻿@typeparam TValue
+@using System.Reflection
+@using System.ComponentModel;
+@using System.ComponentModel.DataAnnotations
+@using System.Linq.Expressions;
+
+
+
+
+@if (ChildContent == null)
+{
+    <label>@label</label>
+}
+else
+{
+    <label>
+        @label
+        @ChildContent
+    </label>
+}
+@code {
+    [Parameter] public Expression<Func<TValue>> For { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    private string label => GetDisplayName();
+    private string GetDisplayName()
+    {
+
+        MemberExpression expression = (MemberExpression)For.Body;
+        var value = expression.Member.GetCustomAttribute(typeof(DisplayAttribute)) as DisplayAttribute;
+        if (!string.IsNullOrWhiteSpace(value?.Name))
+        {
+            return value.Name;
+
+        }
+        var data = expression.Member.GetCustomAttribute(typeof(DisplayNameAttribute)) as DisplayNameAttribute;
+        return data?.DisplayName ?? expression.Member.Name ?? "";
+
+
+    }
+
+}

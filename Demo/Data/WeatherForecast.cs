@@ -1,9 +1,13 @@
-using System;
+﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demo.Data
 {
     public class WeatherForecast
     {
+        [DisplayName("تاریخ")]
+        //[Display(Name ="تاریخ ما")]
         public DateTime Date { get; set; }
 
         public int TemperatureC { get; set; }
