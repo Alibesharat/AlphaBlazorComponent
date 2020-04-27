@@ -1,16 +1,30 @@
 ﻿@page "/testcomponent"
-
+@using AlphaBlazorComponent
 @using Demo.Data
 
 <h1>Weather forecast</h1>
 <EditForm Model="@_W" OnValidSubmit="Save">
-    <div class="row" >
+    <div class="row">
         <div class="col">
             <div class="form-group" dir="rtl">
-                <AlphaBlazorComponent.Components.AlphaLabel  For="@(()=>_W.Date)"></AlphaBlazorComponent.Components.AlphaLabel>
-                <AlphaBlazorComponent.Components.InputDateIos @bind-Value="_W.Date"  />
+                <label>@(_W.GetDisplayName(c=>c.Date))</label>
+                <AlphaBlazorComponent.Components.InputDateIos @bind-Value="_W.Date" />
 
             </div>
+            <div class="form-group" dir="rtl">
+                <label>@(_W.GetDisplayName(c=>c.Summary))</label>
+                <input @bind="_W.Summary" class="form-control" placeholder="@(_W.GetDisplayName(c=>c.Summary))" />
+            </div>
+            <div class="form-group" dir="rtl">
+                <label>@(_W.GetDisplayName(c=>c.WeatherType))</label>
+                <select class="form-control" @bind="_W.WeatherType">
+                   @foreach (var item in Helpers.GetEnumList<WeatherType>())
+                   {
+                       <option value="@item">@item.DisplayName()</option>
+                   }
+                </select>
+            </div>
+
         </div>
         <div class="col">
             <div class="form-group">

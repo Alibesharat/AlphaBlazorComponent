@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace AlphaBlazorComponent
 {
     public static class Helpers
     {
+        /// <summary>
+        /// Get [Dispaly(Name='')] OF Enums
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static string DisplayName(this Enum value)
         {
             return value.GetType()?
@@ -17,9 +23,11 @@ namespace AlphaBlazorComponent
         .Name ?? value.ToString();
         }
 
-
-
-
+        /// <summary>
+        /// Get [Dispaly(Name='')] OF Property
+        /// @(_W.GetDisplayName(c=>c.WeatherType))
+        /// </summary>
+        /// <returns></returns>
         public static string GetDisplayName<TModel, TProperty>(this TModel model, Expression<Func<TModel, TProperty>> expression)
         {
 
@@ -32,8 +40,6 @@ namespace AlphaBlazorComponent
             DisplayAttribute attr;
             attr = (DisplayAttribute)type.GetProperty(propertyName).GetCustomAttributes(typeof(DisplayAttribute), true).SingleOrDefault();
 
-            // Look for [MetadataType] attribute in type hierarchy
-            // http://stackoverflow.com/questions/1910532/attribute-isdefined-doesnt-see-attributes-applied-with-metadatatype-class
             if (attr == null)
             {
                 MetadataTypeAttribute metadataType = (MetadataTypeAttribute)type.GetCustomAttributes(typeof(MetadataTypeAttribute), true).FirstOrDefault();
@@ -46,9 +52,20 @@ namespace AlphaBlazorComponent
                     }
                 }
             }
-            return (attr != null) ? attr.Name : string.Empty;
+            return (attr != null) ? attr.Name : String.Empty;
 
 
+        }
+
+
+        /// <summary>
+        /// Get List OF EnumType
+        ///  Helpers.GetEnumList<TEnum>()
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<TEnum> GetEnumList<TEnum>()
+        {
+            return Enum.GetValues(typeof(TEnum)).Cast<TEnum>();
         }
     }
 }
